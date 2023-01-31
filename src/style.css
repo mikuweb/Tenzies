@@ -4,29 +4,20 @@
 
 body {
   margin: 0;
-  display: flex;
-  justify-content: center;
+  background-color: #0b2434;
+  padding: 20px;
 }
 
-.frame {
+main {
+  background-color: #f5f5f5;
+  height: 400px;
+  max-width: 800px;
+  border-radius: 5px;
+  padding: 20px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-around;
   align-items: center;
-  margin: 70px auto;
-  position: absolute;
-  width: 360px;
-  height: 379px;
-  background: #0b2434;
-}
-
-.container {
-  padding: 40px 0;
-  text-align: center;
-  margin: 0 auto;
-  width: 320px;
-  height: 320px;
-  background: #f5f5f5;
-  border-radius: 10px;
 }
 
 .title {
@@ -51,44 +42,42 @@ body {
   color: #4a4e74;
 }
 
-.game-container {
-  width: 300px;
-  height: 115px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  align-content: stretch;
-  text-align: center;
-  margin: 0 auto 10px;
+.dice-container {
+  display: grid;
+  grid-template: auto auto / repeat(5, 1fr);
+  gap: 20px;
 }
 
-.card {
-  /* width: 20%; */
-  width: calc(20% - 15px * 4 / 5);
-  box-sizing: border-box;
-
-  height: 35px;
-  background: #59e391;
+.die-face {
+  height: 50px;
+  width: 50px;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
-  border-radius: 3.81277px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.is-held {
+  background-color: #59e391;
+}
+
+.die-num {
+  font-family: "Karla";
+  font-size: 2rem;
 }
 
 .btn {
-  padding: 7px;
-  display: inline-block;
-  width: 92px;
-  height: 35px;
-  background: #5035ff;
-  box-shadow: 0px 3.2px 7.68px rgba(0, 0, 0, 0.18);
-  border-radius: 3.81277px;
-  text-decoration: none;
-
-  font-family: "Karla";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 19px;
-  color: #ffffff;
+  height: 50px;
+  width: 150px;
+  border: none;
+  border-radius: 6px;
+  background-color: #5035ff;
+  color: white;
+  font-size: 1.2rem;
+  font-family: "Karla", sans-serif;
+  cursor: pointer;
 }
 
 .btn:hover {
