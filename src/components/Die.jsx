@@ -1,3 +1,5 @@
+import Dice from "./Dice";
+
 export const Die = ({ value, isHeld, holdDice }) => {
   const styles = {
     backgroundColor: isHeld ? "#59E391" : "white",
@@ -5,7 +7,7 @@ export const Die = ({ value, isHeld, holdDice }) => {
 
   return (
     <div onClick={holdDice} className="die-face" style={styles}>
-      <h2 className="die-num">{value}</h2>
+      <h2 className="die-num"><Dice value={value}/></h2>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
 import { Die } from "./components/Die";
-import Confetti from "react-confetti"
+import Confetti from "react-confetti";
 import "./style.css";
 
 const allNewDice = () => {
@@ -21,19 +21,24 @@ function App() {
   const [tenzies, setTenzies] = useState(false);
 
   const rollDice = () => {
-    setDice((oldDice) =>
-      oldDice.map((die) => {
-        return die.isHeld
-          ? die
-          : {
-              value: Math.floor(Math.random() * 6),
-              isHeld: false,
-              id: nanoid(),
-            };
-      })
-    );
-    console.log(dice);
-    // setDice(allNewDice());
+    if (!tenzies) {
+      setDice((oldDice) =>
+        oldDice.map((die) => {
+          return die.isHeld
+            ? die
+            : {
+                value: Math.floor(Math.random() * 6),
+                isHeld: false,
+                id: nanoid(),
+              };
+        })
+      );
+    } else {
+      setTenzies(false);
+      setDice(allNewDice);
+      //Question
+      // setDice(allNewDice());
+    }
   };
 
   const holdDice = (id) => {
@@ -42,8 +47,8 @@ function App() {
         return die.id === id ? { ...die, isHeld: !die.isHeld } : die;
       })
     );
+    console.log(dice);
   };
-  console.log(dice);
 
   useEffect(() => {
     const allHeld = dice.every((die) => die.isHeld);
