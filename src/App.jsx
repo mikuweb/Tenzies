@@ -19,6 +19,8 @@ const allNewDice = () => {
 function App() {
   const [dice, setDice] = useState(allNewDice);
   const [tenzies, setTenzies] = useState(false);
+  const [score, setScore] = useState(0);
+  const [bestScore, setBestScore] = useState(0);
 
   const rollDice = () => {
     if (!tenzies) {
@@ -33,8 +35,15 @@ function App() {
               };
         })
       );
+      setScore((preScore) => preScore + 1);
     } else {
       setTenzies(false);
+      if (bestScore == 0) {
+        setBestScore(score);
+      } else if (score < bestScore) {
+        setBestScore(score);
+      }
+      setScore(0);
       setDice(allNewDice);
       //Question
       // setDice(allNewDice());
@@ -75,9 +84,26 @@ function App() {
       <main>
         {tenzies && <Confetti />}
         <h1 className="title">Tenzies</h1>
+
         <div className="description">
           Roll until all dice are the same. Click each die to freeze it at its
           current value between rolls.
+        </div>
+        <div className="score-container">
+          <div className="time">
+            Time <span className="number">0</span>
+          </div>
+          <div className="score">
+            Score <span className="number">{score}</span>
+          </div>
+        </div>
+        <div className="best-container">
+          <div className="time">
+            Best Time <span className="number">0</span>
+          </div>
+          <div className="score">
+            Best Score <span className="number">{bestScore}</span>
+          </div>
         </div>
         <div className="dice-container">{diceElement}</div>
         <button onClick={rollDice} className="btn">
