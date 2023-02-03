@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Die } from "./components/Die";
 import Confetti from "react-confetti";
 import "./style.css";
+import { Score } from "./components/Score";
 
 const allNewDice = () => {
   const newDice = [];
@@ -21,7 +22,11 @@ function App() {
   const [tenzies, setTenzies] = useState(false);
   const [score, setScore] = useState(0);
   const [bestScore, setBestScore] = useState(0);
+  const [time, setTime] = useState("00:00");
+  const [startTime, setStartTime] = useState(new Date());
+  const [bestTime, setBestTime] = useState("00:00");
 
+  //* Roll & New Game
   const rollDice = () => {
     if (!tenzies) {
       setDice((oldDice) =>
@@ -38,18 +43,29 @@ function App() {
       setScore((preScore) => preScore + 1);
     } else {
       setTenzies(false);
+      //best score
       if (bestScore == 0) {
         setBestScore(score);
       } else if (score < bestScore) {
         setBestScore(score);
       }
       setScore(0);
+      //best time
+      if (bestTime === "00:00") {
+        setBestTime(time);
+      } else if (time < bestTime) {
+        setBestTime(time);
+      }
+      setTime("00:00");
+      setStartTime(new Date());
+
       setDice(allNewDice);
       //Question
       // setDice(allNewDice());
     }
   };
 
+  // *Hold Dice functionaluty
   const holdDice = (id) => {
     setDice((oldDice) =>
       oldDice.map((die) => {
@@ -59,6 +75,7 @@ function App() {
     console.log(dice);
   };
 
+  // *When you win the game
   useEffect(() => {
     const allHeld = dice.every((die) => die.isHeld);
     const firstValue = dice[0].value;
@@ -69,6 +86,28 @@ function App() {
       console.log("YOU WON!");
     }
   }, [dice]);
+
+  //*count time
+  useEffect(() => {
+    if (!tenzies) {
+      const interval = setInterval(() => {
+        //1.Convert to seconds
+        let seconds = (new Date() - startTime) / 1000;
+        //2.Extract minutes
+        const minutes = parseInt(seconds / 60); // 60 seconds in 1 minute
+        //3.Keep only seconds not extracted to minutes
+        seconds = Math.floor(seconds % 60);
+        setTime(
+          `${minutes < 10 ? "0" + minutes : minutes}:${
+            seconds < 10 ? "0" + seconds : seconds
+          }`
+        );
+      }, 1000);
+
+      //necessary, so we don't end up with multiple stale setIntervals
+      return () => clearInterval(interval);
+    }
+  }, [tenzies]);
 
   const diceElement = dice.map((die) => (
     <Die
@@ -89,22 +128,12 @@ function App() {
           Roll until all dice are the same. Click each die to freeze it at its
           current value between rolls.
         </div>
-        <div className="score-container">
-          <div className="time">
-            Time <span className="number">0</span>
-          </div>
-          <div className="score">
-            Score <span className="number">{score}</span>
-          </div>
-        </div>
-        <div className="best-container">
-          <div className="time">
-            Best Time <span className="number">0</span>
-          </div>
-          <div className="score">
-            Best Score <span className="number">{bestScore}</span>
-          </div>
-        </div>
+        <Score
+          time={time}
+          score={score}
+          bestScore={bestScore}
+          bestTime={bestTime}
+        />
         <div className="dice-container">{diceElement}</div>
         <button onClick={rollDice} className="btn">
           {tenzies ? "New Game" : "Roll"}
