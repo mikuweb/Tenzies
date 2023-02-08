@@ -4,7 +4,7 @@ import { Die } from "./components/Die";
 import Confetti from "react-confetti";
 import "./style.css";
 import { Score } from "./components/Score";
-
+// const hello = allNewDice
 const allNewDice = () => {
   const newDice = [];
   for (let i = 0; i < 10; i++) {
@@ -46,22 +46,25 @@ function App() {
       //best score
       if (bestScore == 0) {
         setBestScore(score);
+        localStorage.setItem("BestScore", score);
       } else if (score < bestScore) {
         setBestScore(score);
+        localStorage.setItem("BestScore", score);
       }
       setScore(0);
+
       //best time
       if (bestTime === "00:00") {
         setBestTime(time);
+        localStorage.setItem("BestTime", time);
       } else if (time < bestTime) {
         setBestTime(time);
+        localStorage.setItem("BestTime", time);
       }
       setTime("00:00");
       setStartTime(new Date());
 
       setDice(allNewDice);
-      //Question
-      // setDice(allNewDice());
     }
   };
 
