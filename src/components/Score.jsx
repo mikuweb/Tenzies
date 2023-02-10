@@ -12,11 +12,11 @@ export const Score = ({ time, score, bestScore, bestTime }) => {
       <div className="best-container">
         <div className="time">
           Best Time{" "}
-          <span className="number">{localStorage.getItem("BestTime")}</span>
+          <span className="number">{bestTime}</span>
         </div>
         <div className="score">
           Best Score{" "}
-          <span className="number">{localStorage.getItem("BestScore")}</span>
+          <span className="number">{bestScore}</span>
         </div>
       </div>
     </>

@@ -4,7 +4,7 @@ import { Die } from "./components/Die";
 import Confetti from "react-confetti";
 import "./style.css";
 import { Score } from "./components/Score";
-// const hello = allNewDice
+
 const allNewDice = () => {
   const newDice = [];
   for (let i = 0; i < 10; i++) {
@@ -21,10 +21,10 @@ function App() {
   const [dice, setDice] = useState(allNewDice);
   const [tenzies, setTenzies] = useState(false);
   const [score, setScore] = useState(0);
-  const [bestScore, setBestScore] = useState(0);
+  const [bestScore, setBestScore] = useState(localStorage.getItem("BestScore") ?? 0);
   const [time, setTime] = useState("00:00");
   const [startTime, setStartTime] = useState(new Date());
-  const [bestTime, setBestTime] = useState("00:00");
+  const [bestTime, setBestTime] = useState(localStorage.getItem("BestTime") ?? "00:00");
 
   //* Roll & New Game
   const rollDice = () => {
@@ -66,6 +66,17 @@ function App() {
 
       setDice(allNewDice);
     }
+  };
+
+  // *Reset Game
+  const resetGame = () => {
+    setScore(0);
+    setTime("00:00");
+    setStartTime(new Date());
+    setDice(allNewDice);
+    localStorage.clear();
+    setBestScore(0);
+    setBestTime("00:00");
   };
 
   // *Hold Dice functionaluty
@@ -126,6 +137,9 @@ function App() {
       <main>
         {tenzies && <Confetti />}
         <h1 className="title">Tenzies</h1>
+        <button onClick={resetGame} className="btn reset">
+          Reset
+        </button>
 
         <div className="description">
           Roll until all dice are the same. Click each die to freeze it at its
@@ -138,7 +152,7 @@ function App() {
           bestTime={bestTime}
         />
         <div className="dice-container">{diceElement}</div>
-        <button onClick={rollDice} className="btn">
+        <button onClick={rollDice} className="btn roll">
           {tenzies ? "New Game" : "Roll"}
         </button>
       </main>
